@@ -1,8 +1,12 @@
-import streamlit as st
 import logging
 import os
+
 from src.web_scraper.web_scraper import WebScraper
+from src.modeling.llm import LLMSelector
+
 from src.config_loader.config_loader import config_loader
+
+import streamlit as st
 
 @st.cache_resource
 def load_config(config_path):
@@ -11,6 +15,11 @@ def load_config(config_path):
 @st.cache_resource
 def init_web_scraper(_config):
     return WebScraper(config=_config)
+
+@st.cache_resource
+def init_llm(_config):
+    selector = LLMSelector(config=_config)
+    return selector.create_llm_from_config()
 
 if __name__ == "__main__":
 
@@ -37,6 +46,12 @@ if __name__ == "__main__":
     if "web_scraper_initialized_logged" not in st.session_state:
         logging.info("Web scraper initialized successfully")
         st.session_state["web_scraper_initialized_logged"] = True
+    
+    # Initialize the LLM
+    llm = init_llm(_config=config.llms_config)
+    if "llm_initialized_logged" not in st.session_state:
+        logging.info(f"LLM {llm.__class__.__name__} initialized successfully")
+        st.session_state["llm_initialized_logged"] = True
 
     # Streamlit UI
     st.title("🧠 Webpage Summarizer using LLMs")
