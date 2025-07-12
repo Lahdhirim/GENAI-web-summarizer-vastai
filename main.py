@@ -4,21 +4,39 @@ import os
 from src.web_scraper.web_scraper import WebScraper
 from src.config_loader.config_loader import config_loader
 
+@st.cache_resource
+def load_config(config_path):
+    return config_loader(config_path=config_path)
+
+@st.cache_resource
+def init_web_scraper(_config):
+    return WebScraper(config=_config)
+
 if __name__ == "__main__":
 
-    # Load the configuration
-    config_path = "config/config.json"
-    config = config_loader(config_path=config_path)
-
-    web_scraper = WebScraper(config=config.web_scraper_config)
-
+    # Set up logging
     os.makedirs("logs", exist_ok=True)
     logging.basicConfig(filename="logs/app.log",
                         level=logging.INFO,
                         filemode="w",
                         format="%(asctime)s - %(levelname)s - %(message)s"
     )
+    if "logging_started_logged" not in st.session_state:
+        logging.info(f"Logging started at {logging.getLogger().name}")
+        st.session_state["logging_started_logged"] = True
 
+    # Load the configuration
+    config_path = "config/config.json"
+    config = load_config(config_path=config_path)
+    if "config_loaded_logged" not in st.session_state:
+        logging.info(f"Config loaded successfully from: {config_path}")
+        st.session_state["config_loaded_logged"] = True
+
+    # Initialize the web scraper
+    web_scraper = init_web_scraper(_config=config.web_scraper_config)
+    if "web_scraper_initialized_logged" not in st.session_state:
+        logging.info("Web scraper initialized successfully")
+        st.session_state["web_scraper_initialized_logged"] = True
 
     # Streamlit UI
     st.title("🧠 Webpage Summarizer using LLMs")
@@ -38,3 +56,8 @@ if __name__ == "__main__":
             height=200,
             disabled=True
         )
+    
+    # [MEDIUM]: Treat the case where the URL is not valid
+    else:
+        st.warning("Please enter a valid webpage URL to summarize.")
+        logging.info(f"No URL provided for summarization.")
