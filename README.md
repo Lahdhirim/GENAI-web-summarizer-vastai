@@ -1,1 +1,1 @@
-# Web Summarizer using Ollama LLMs and Vast AI Server (Under Construction)
+# Web Summarizer using Ollama LLMs and Vast AI Server for deployment (Under Construction)
