@@ -1,1 +1,1 @@
-# GENAI-web-summarizer
+# GENAI Web Summarizer using Ollama and Vast AI Server (Under Construction)
