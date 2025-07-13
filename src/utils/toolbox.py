@@ -1,6 +1,6 @@
 from pathlib import Path
 
-def load_prompt(prompt_path: str, **kwargs) -> str:
+def load_prompt(prompt_path: str) -> str:
     """
     Load a prompt from a file.
     
@@ -15,4 +15,4 @@ def load_prompt(prompt_path: str, **kwargs) -> str:
     
     prompt_path = Path(prompt_path)
     prompt_template = prompt_path.read_text(encoding="utf-8")
-    return prompt_template.format(**kwargs)
+    return prompt_template

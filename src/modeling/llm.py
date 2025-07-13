@@ -13,7 +13,7 @@ class BaseLLM(ABC):
         self.config = config
     
     @abstractmethod
-    def call(self, prompt: str) -> str:
+    def call(self, content: str, prompt: str) -> str:
         """Call the LLM with a prompt and return the response"""
         pass
 
@@ -23,11 +23,14 @@ class OllamaLLM(BaseLLM):
     def __init__(self, config: OllamaConfig):
         super().__init__(config)
     
-    def call(self, prompt: str) -> str:
+    def call(self, content: str, prompt: str) -> str:
+
+        full_prompt = f"{prompt}\nThe contents of this website is as follows:\n{content}"
+
         try:
             result = subprocess.run(
                 ["ollama", "run", self.config.model],
-                input=prompt.encode(),
+                input=full_prompt.encode(),
                 capture_output=True
             )
             
@@ -47,14 +50,14 @@ class HuggingFaceLLM(BaseLLM):
         super().__init__(config)
         self.api_url = f"{self.config.base_url}/{self.config.model}"
     
-    def call(self, prompt: str) -> str:
+    def call(self, content: str, prompt: str) -> str:
+
         headers = {
-            "Authorization": f"Bearer {os.getenv('HUGGINGFACE_API_KEY')}",
-            "Content-Type": "application/json"
+            "Authorization": f"Bearer {os.getenv('HUGGINGFACE_API_KEY')}"
         }
         
         payload = {
-            "inputs": prompt
+            "inputs": content
         }
         
         try:
@@ -66,7 +69,7 @@ class HuggingFaceLLM(BaseLLM):
             
             if response.status_code == 200:
                 result = response.json()
-                return result[0].get("generated_text", "").strip()
+                return result[0].get("summary_text", "").strip()
             else:
                 raise Exception(f"HuggingFace error: {response.status_code} - {response.text}")
                 
@@ -79,15 +82,18 @@ class OpenRouterLLM(BaseLLM):
     def __init__(self, config: OpenRouterConfig):
         super().__init__(config)
     
-    def call(self, prompt: str) -> str:
+    def call(self, content: str, prompt: str) -> str:
+
+        full_prompt = f"{prompt}\nThe contents of this website is as follows:\n{content}"
+
         headers = {
             "Authorization": f"Bearer {os.getenv('OPENROUTER_API_KEY')}",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         }
         
         payload = {
             "model": self.config.model,
-            "messages": [{"role": "user", "content": prompt}]
+            "messages": [{"role": "user", "content": full_prompt}]
         }
         
         try:

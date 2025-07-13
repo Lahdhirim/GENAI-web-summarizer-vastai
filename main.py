@@ -1,6 +1,6 @@
 import logging
 import os
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 from src.web_scraper.web_scraper import WebScraper
 from src.modeling.llm import LLMSelector
 from src.config_loader.config_loader import config_loader
@@ -17,7 +17,10 @@ def init_web_scraper(_config):
 
 @st.cache_resource
 def init_llm(_config):
-    load_dotenv()
+    # load API keys from .env file
+    load_dotenv(find_dotenv(), override=True)
+
+    # Select the LLM provider based on the configuration
     selector = LLMSelector(config=_config)
     return selector.create_llm_from_config()
 
@@ -49,6 +52,7 @@ if __name__ == "__main__":
     
     # Initialize the LLM
     llm = init_llm(_config=config.llms_config)
+    prompt = load_prompt(prompt_path=config.prompt_file)
     if "llm_initialized_logged" not in st.session_state:
         logging.info(f"LLM {llm.__class__.__name__} initialized successfully")
         st.session_state["llm_initialized_logged"] = True
@@ -61,27 +65,20 @@ if __name__ == "__main__":
         with st.spinner("Fetching and parsing the page..."):
             page_text = web_scraper.fetch_text(url=url)
         logging.info(f"Page text fetched from: {url}")
-        logging.info(f"Extracted content (truncated): {page_text[:300]}")
-        # Display the raw extracted content
-        # st.subheader("Raw extracted content")
-        # st.text_area(
-        #     "Extracted Text",
-        #     page_text[:3000] + ("..." if len(page_text) > 3000 else ""),
-        #     height=200,
-        #     disabled=True
-        # )
+        logging.info(f"Extracted content: {page_text}")
 
         # Summarize the content using the selected LLM
-        prompt = load_prompt(prompt_path=config.prompt_file, content=page_text)
-        summary = llm.call(prompt=prompt)
-        logging.info(f"Summary generated (truncated): {summary[:300]}")
-        # Display the summary
-        st.subheader("Summary")
-        st.text_area(
-            "Summary",
-            summary[:3000] + ("..." if len(summary) > 3000 else ""),
-            height=200,
-        )
+        if st.button("Summarize with LLM"):
+            with st.spinner("Generating summary using LLM..."):
+                try:
+                    summary = llm.call(content=page_text, prompt=prompt)
+                    st.success("Summary generated successfully!")
+                    logging.info(f"Summary generated: {summary}")
+                    # Display the summary
+                    st.subheader("Summary")
+                    st.write(summary)
+                except Exception as e:
+                    st.error(f"Failed to generate summary: {e}")
     
     # [MEDIUM]: Treat the case where the URL is not valid
     else:

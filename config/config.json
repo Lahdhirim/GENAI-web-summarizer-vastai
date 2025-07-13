@@ -4,16 +4,16 @@
     "llms_config": {
         "ollama": {
             "enable": true,
-            "model": "phi3:mini"
+            "model": "mistral:latest"
         },
         "huggingface": {
             "enable": false,
-            "model": "HuggingFaceH4/zephyr-7b-beta",
+            "model": "facebook/bart-large-cnn",
             "base_url": "https://api-inference.huggingface.co/models"
         },
         "openrouter": {
             "enable": false,
-            "model": "anthropic/claude-3-haiku",
+            "model": "google/gemma-3n-e2b-it:free",
             "base_url": "https://openrouter.ai/api/v1/chat/completions"
         }
     },
