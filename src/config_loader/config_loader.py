@@ -54,7 +54,7 @@ class LLMsConfig(BaseModel):
 class Config(BaseModel):
     web_scraper_config: WebScraperConfig = Field(..., description="Configuration for web scraping")
     llms_config: LLMsConfig = Field(..., description="Configuration for used LLM")
-    prompt_files: dict[str, str] = Field(..., description="Dictionary of prompt files")
+    prompt_file: str = Field(..., description="Path to the prompt file")
 
 def config_loader(config_path: str) -> Config:
     try:

@@ -1,11 +1,10 @@
 import logging
 import os
-
+from dotenv import load_dotenv
 from src.web_scraper.web_scraper import WebScraper
 from src.modeling.llm import LLMSelector
-
 from src.config_loader.config_loader import config_loader
-
+from src.utils.toolbox import load_prompt
 import streamlit as st
 
 @st.cache_resource
@@ -18,6 +17,7 @@ def init_web_scraper(_config):
 
 @st.cache_resource
 def init_llm(_config):
+    load_dotenv()
     selector = LLMSelector(config=_config)
     return selector.create_llm_from_config()
 
@@ -60,16 +60,27 @@ if __name__ == "__main__":
     if url:
         with st.spinner("Fetching and parsing the page..."):
             page_text = web_scraper.fetch_text(url=url)
-
         logging.info(f"Page text fetched from: {url}")
         logging.info(f"Extracted content (truncated): {page_text[:300]}")
-        
-        st.subheader("Raw extracted content")
+        # Display the raw extracted content
+        # st.subheader("Raw extracted content")
+        # st.text_area(
+        #     "Extracted Text",
+        #     page_text[:3000] + ("..." if len(page_text) > 3000 else ""),
+        #     height=200,
+        #     disabled=True
+        # )
+
+        # Summarize the content using the selected LLM
+        prompt = load_prompt(prompt_path=config.prompt_file, content=page_text)
+        summary = llm.call(prompt=prompt)
+        logging.info(f"Summary generated (truncated): {summary[:300]}")
+        # Display the summary
+        st.subheader("Summary")
         st.text_area(
-            "Extracted Text",
-            page_text[:3000] + ("..." if len(page_text) > 3000 else ""),
+            "Summary",
+            summary[:3000] + ("..." if len(summary) > 3000 else ""),
             height=200,
-            disabled=True
         )
     
     # [MEDIUM]: Treat the case where the URL is not valid

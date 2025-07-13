@@ -17,8 +17,5 @@
             "base_url": "https://openrouter.ai/api/v1/chat/completions"
         }
     },
-    "prompt_files": {
-        "system_prompt": "config/system_prompt.txt",
-        "user_prompt": "config/user_prompt.txt"
-    }
+    "prompt_file": "config/prompt.txt"
 }

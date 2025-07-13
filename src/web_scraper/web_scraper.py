@@ -9,6 +9,7 @@ class WebScraper:
         self.timeout = config.timeout
 
     def fetch_text(self, url: str) -> str:
+        # [MEDIUM] : Enhance the Web Scraper 
         try:
             response = requests.get(url, timeout=self.timeout)
             soup = BeautifulSoup(response.content, "html.parser")

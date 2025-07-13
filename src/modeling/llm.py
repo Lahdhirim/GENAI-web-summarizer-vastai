@@ -1,3 +1,4 @@
+import os
 from abc import ABC, abstractmethod
 from typing import Union
 import subprocess
@@ -47,9 +48,8 @@ class HuggingFaceLLM(BaseLLM):
         self.api_url = f"{self.config.base_url}/{self.config.model}"
     
     def call(self, prompt: str) -> str:
-        # [MEDIUM] Move HuggingFace API key to .env file
         headers = {
-            "Authorization": f"Bearer {self.config.HUGGINGFACE_API_KEY}",
+            "Authorization": f"Bearer {os.getenv('HUGGINGFACE_API_KEY')}",
             "Content-Type": "application/json"
         }
         
@@ -80,9 +80,8 @@ class OpenRouterLLM(BaseLLM):
         super().__init__(config)
     
     def call(self, prompt: str) -> str:
-        # [MEDIUM] Move OpenRouter API key to .env file
         headers = {
-            "Authorization": f"Bearer {self.config.OPENROUTER_API_KEY}",
+            "Authorization": f"Bearer {os.getenv('OPENROUTER_API_KEY')}",
             "Content-Type": "application/json"
         }
         
