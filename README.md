@@ -2,4 +2,8 @@
 
 This project is designed to summarize web pages using large language models (LLMs). The tool is deployed on a [VastAI](https://vast.ai/) server, making it accessible for all users.
 
+<div align="center">
+
 ![Demo](assets/demo.gif)
+
+</div>
