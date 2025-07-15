@@ -1,4 +1,4 @@
-# Web Summarizer Using LLMs (Large Language Models) with VastAI Deployment
+# Web Summarizer Using Large Language Models (LLMs) with VastAI Deployment
 
 This project enables automated summarization of web pages using powerful large language models (LLMs). It supports a wide range of LLM providers:
 - [Ollama](https://ollama.com/) (Runs locally, make sure it's installed.)
@@ -31,7 +31,7 @@ The tool offers a simple and intuitive Streamlit interface, allowing users to in
 ### The Application
 
 1. Loads credentials (email & API keys) from `.env` file.
-2. Scrapes the webpage using a built-in web scraper.
+2. Scrapes the webpage [beautifulsoup](https://pypi.org/project/beautifulsoup4/) library.
 3. Sends content to the selected LLM for summarization.
 4. Displays summary in the UI and optionally sends it to the user via email using SMTP.
 
