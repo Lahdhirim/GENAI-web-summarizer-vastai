@@ -35,6 +35,10 @@ The tool offers a simple and intuitive Streamlit interface, allowing users to in
 3. Sends content to the selected LLM for summarization.
 4. Displays summary in the UI and optionally sends it to the user via email using SMTP.
 
+<div style="text-align: center;">
+    <img src="assets/project_structure.png" alt="CV" width="950", height="550"/>
+</div>
+
 ## VastAI Configuration for Model Deployment
 1. Template Selection:
     - For the template choice, it is highly recommended to use a template that already has Ollama installed (e.g., [Open Webui Ollama](https://cloud.vast.ai/?ref_id=277963&creator_id=277963&name=Open%20Webui%20(Ollama)) template). Otherwise, you can choose any other template and install Ollama by running the following command:
