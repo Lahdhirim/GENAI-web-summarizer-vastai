@@ -34,7 +34,7 @@ The tool offers a simple and intuitive Streamlit interface, allowing users to in
 4. Displays summary in the UI and optionally sends it to the user via email using SMTP.
 
 <div style="text-align: center;">
-    <img src="assets/project_structure.png" alt="CV" width="950", height="550"/>
+    <img src="assets/project_structure_final.png" alt="CV" width="950", height="550"/>
 </div>
 
 ## VastAI Configuration for Model Deployment
