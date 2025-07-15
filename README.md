@@ -1,4 +1,4 @@
-# Web Summarizer Using LLMs (Large Language Models) with VastAI Deployment
+# Web Summarizer Using Large Language Models (LLMs) with VastAI Deployment
 
 This project enables automated summarization of web pages using powerful large language models (LLMs). It supports a wide range of LLM providers:
 - [Ollama](https://ollama.com/) (Runs locally, make sure it's installed.)
