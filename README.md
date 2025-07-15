@@ -31,7 +31,7 @@ The tool offers a simple and intuitive Streamlit interface, allowing users to in
 ### The Application
 
 1. Loads credentials (email & API keys) from `.env` file.
-2. Scrapes the webpage using a built-in web scraper.
+2. Scrapes the webpage [beautifulsoup](https://pypi.org/project/beautifulsoup4/) library.
 3. Sends content to the selected LLM for summarization.
 4. Displays summary in the UI and optionally sends it to the user via email using SMTP.
 
