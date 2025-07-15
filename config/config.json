@@ -3,7 +3,7 @@
     },
     "llms_config": {
         "ollama": {
-            "enable": true,
+            "enable": false,
             "model": "mistral:latest"
         },
         "huggingface": {
@@ -12,7 +12,7 @@
             "base_url": "https://api-inference.huggingface.co/models"
         },
         "openrouter": {
-            "enable": false,
+            "enable": true,
             "model": "google/gemma-3n-e2b-it:free",
             "base_url": "https://openrouter.ai/api/v1/chat/completions"
         }
