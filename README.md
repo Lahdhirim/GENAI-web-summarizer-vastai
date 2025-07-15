@@ -8,7 +8,9 @@ This project enables automated summarization of web pages using powerful large l
 The tool offers a simple and intuitive Streamlit interface, allowing users to input a URL and receive a concise summary of the page — optionally delivered via email. It is deployed on both the **Streamlit Share Server** (Public link: https://genai-web-summarizer.streamlit.app/) and **[VastAI](https://vast.ai/)** server.
 
 <div align="center">
+
 ![Demo](assets/demo.gif)
+
 </div>
 
 ## Key Features
