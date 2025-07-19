@@ -106,6 +106,14 @@ To add support for another LLM (e.g., OpenAI):
 - Create a new config class in [config_loader.py](src/config_loader/config_loader.py) (e.g., `OpenAIConfig`).
 - Implement a new model handler in [llm.py](src/modeling/llm.py), inheriting from `BaseLLM` abstract class.
 
+## Comparison of LLM Providers
+
+| Provider       | Advantages                                           | Limitations                                               |
+|----------------|--------------------------------------------------------|-----------------------------------------------------------------|
+| **Ollama**     | - Unlimited usage locally<br>- Fast & works offline   | - Requires local installation with sufficient computation resources |
+| **Hugging Face** | - Simple REST API<br>- Pretrained summarization models | - Requires paid plan   |
+| **OpenRouter** | - Easy API access<br>- Access to many popular models  | - Free tier: ~100 requests/day (shared quota) |
+
 ## Notes & Considerations
 - Some websites actively block scraping. You may need to use headers or proxies.
 - Always review rate limits for your chosen LLM provider.

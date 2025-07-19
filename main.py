@@ -79,7 +79,14 @@ if __name__ == "__main__":
                     logging.info(f"Summary generated: {summary}")
 
                 except Exception as e:
-                    st.error(f"Failed to generate summary: {e}")
+                    
+                    if "The daily request limit for OpenRouter has been reached" in str(e):
+                        st.warning(str(e))
+                        with open("assets/sleepy_robot.gif", "rb") as gif_file:
+                            gif_bytes = gif_file.read()
+                            st.image(gif_bytes, caption="Our summarizer needs a break...", use_container_width=True)
+                    else:
+                        st.error(f"Failed to generate summary: {e}")
     
     # [MEDIUM]: Treat the case where the URL is not valid
     else:

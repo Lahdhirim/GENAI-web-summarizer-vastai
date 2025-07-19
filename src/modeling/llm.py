@@ -105,6 +105,16 @@ class OpenRouterLLM(BaseLLM):
             
             if response.status_code == 200:
                 return response.json()["choices"][0]["message"]["content"].strip()
+            
+            elif response.status_code == 429:
+            # Handle rate limiting
+                raise Exception(
+                    "🚧 Oops! The daily request limit for OpenRouter has been reached.\n\n"
+                    "Don't worry, it just means *a lot of people* used the service today.\n\n"
+                    "Please try again tomorrow.\n\n"
+                    "Even AI needs a nap sometimes... 💤"
+                )
+            
             else:
                 raise Exception(f"OpenRouter error: {response.status_code} - {response.text}")
                 
